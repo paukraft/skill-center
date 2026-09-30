@@ -210,7 +210,6 @@ function AppWindow({
 }) {
   const matching = (skills: Skill[]) => skills.filter((skill) => `${skill.name} ${skill.description}`.includes(filter))
   const tabs = [
-    { key: "settings", icon: <Gear />, label: "Settings" },
     { key: "discover", icon: <Compass />, label: "Discover" },
     { key: "create", icon: <Plus />, label: "New skill" },
   ] as const
@@ -225,6 +224,15 @@ function AppWindow({
         <img src="/favicon.svg" alt="" className="size-5 rounded-[5px] ring-1 ring-white/10" />
         <span className="font-medium">Skill Center</span>
         <span className="flex-1" />
+        <span
+          data-at="settings"
+          className={cn(
+            "flex size-7 items-center justify-center rounded-full transition-colors duration-200 [&_svg]:size-3.5",
+            tab === "settings" && "bg-foreground/[0.06]",
+          )}
+        >
+          <Gear />
+        </span>
         {tabs.map(({ key, icon, label }) => (
           <span
             key={key}

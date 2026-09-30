@@ -61,11 +61,13 @@ function App() {
         <span className="text-note font-medium">Skill Center</span>
         <span className="flex-1" />
         <Button
-          variant={current?.kind === "settings" ? "primary" : "secondary"}
+          variant={current?.kind === "settings" ? "secondary" : "ghost"}
+          className="w-8 px-0"
+          title="Settings"
+          aria-label="Settings"
           onClick={() => setView({ kind: "settings" })}
         >
           <GearSix />
-          Settings
         </Button>
         <Button
           variant={current?.kind === "discover" ? "primary" : "secondary"}

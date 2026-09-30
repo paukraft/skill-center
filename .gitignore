@@ -5,3 +5,5 @@ apps/desktop/build/
 .DS_Store
 .env*
 *.local
+.vercel
+.output/
