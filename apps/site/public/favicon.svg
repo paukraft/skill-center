@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- The app icon (apps/desktop/scripts/make-icon.swift) at UI size, edge to edge. -->
+  <defs>
+    <radialGradient id="tile">
+      <stop offset="0" stop-color="#3a3a3a" />
+      <stop offset="1" stop-color="#000" />
+    </radialGradient>
+    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff" />
+      <stop offset="1" stop-color="#8c8c8c" />
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22.5" fill="url(#tile)" />
+  <rect x="36.5" y="21.65" width="38.75" height="45" rx="5.9" fill="#000" stroke="#fff" stroke-opacity="0.45" stroke-width="2.5" />
+  <rect x="30.625" y="27.525" width="38.75" height="45" rx="5.9" fill="#000" stroke="#fff" stroke-opacity="0.75" stroke-width="2.5" />
+  <rect x="24.75" y="33.4" width="38.75" height="45" rx="5.9" fill="url(#silver)" stroke="#fff" stroke-width="3" />
+  <path d="M44.125 43.375C44.125 52.625 47.375 55.875 56.625 55.875C47.375 55.875 44.125 59.125 44.125 68.375C44.125 59.125 40.875 55.875 31.625 55.875C40.875 55.875 44.125 52.625 44.125 43.375Z" />
+</svg>

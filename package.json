@@ -1,0 +1,24 @@
+{
+  "name": "skill-center",
+  "private": true,
+  "packageManager": "bun@1.3.3",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev dev:host",
+    "build": "turbo run build",
+    "install-app": "turbo run install-app",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "sync": "turbo run sync",
+    "mcp": "bun apps/mcp/src/server.ts"
+  },
+  "devDependencies": {
+    "turbo": "^2.11.5"
+  },
+  "trustedDependencies": [
+    "electron"
+  ]
+}

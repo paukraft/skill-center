@@ -1,0 +1,44 @@
+# The app for each platform, built on that platform: `bun run build`.
+appId: dev.paukraft.skillcenter
+productName: Skill Center
+directories:
+  output: build
+  buildResources: assets
+files:
+  - dist/**
+  - assets/**
+  - package.json
+# The UI, served from here by the app's own scheme (src/main.ts).
+extraResources:
+  - from: ../web/dist
+    to: web
+icon: assets/icon.png
+mac:
+  target: dmg
+  category: public.app-category.developer-tools
+  # Ad hoc: runs on the Mac it was built on; distributing needs a Developer ID.
+  identity: "-"
+  hardenedRuntime: false
+  # A tray app first: no Dock icon until the window is shown.
+  extendInfo:
+    LSUIElement: true
+  # The MCP server sits next to the app's binary, where harnesses' configs point.
+  extraFiles:
+    - from: ../mcp/dist/skill-center-mcp
+      to: MacOS/skill-center-mcp
+win:
+  target: nsis
+  extraFiles:
+    - from: ../mcp/dist/skill-center-mcp.exe
+      to: skill-center-mcp.exe
+nsis:
+  oneClick: true
+  perMachine: false
+linux:
+  # Not AppImage: it runs from a new mount each time, and the MCP server's
+  # path in the harnesses' configs has to stay put.
+  target: [deb, tar.gz]
+  category: Development
+  extraFiles:
+    - from: ../mcp/dist/skill-center-mcp
+      to: skill-center-mcp

@@ -1,0 +1,176 @@
+@import "tailwindcss";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+
+/*
+ * The AI Inbx console's language, carried over: paper and warm ink, one sage
+ * accent, surfaces told apart by tone alone — no borders, no shadows — and a
+ * soft wash of colour behind whatever is being looked at.
+ */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: "Geist Variable", -apple-system, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
+
+  --text-caption: 12px;
+  --text-caption--line-height: 1.5;
+  --text-note: 13px;
+  --text-note--line-height: 1.6;
+  --text-body: 14px;
+  --text-body--line-height: 1.6;
+  --text-heading: 17px;
+  --text-heading--line-height: 1.412;
+  --text-title: 22px;
+  --text-title--line-height: 1.25;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-faint: var(--faint);
+  --color-ring: var(--ring);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-ok: var(--ok);
+  --color-bloom-sage: var(--bloom-sage);
+  --color-bloom-sand: var(--bloom-sand);
+  --color-bloom-sky: var(--bloom-sky);
+
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
+  --radius-2xl: 8px;
+}
+
+:root {
+  color-scheme: light;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.202 0.003 68);
+  --card: oklch(1 0 0);
+  --primary: oklch(0.202 0.003 68);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.972 0 0);
+  --muted: oklch(0.972 0 0);
+  --muted-foreground: oklch(0.548 0.002 68);
+  --accent: oklch(0.766 0.068 114);
+  --accent-foreground: oklch(0.202 0.003 68);
+  --faint: oklch(0.872 0.003 68);
+  --ring: oklch(0.202 0.003 68);
+  --ok: oklch(0.508 0.085 150);
+  --warn: oklch(0.532 0.086 72);
+  --warn-soft: oklch(0.958 0.032 85);
+  --danger: oklch(0.532 0.146 27);
+  --danger-soft: oklch(0.962 0.018 25);
+  --bloom-sage: oklch(0.87 0.03 150);
+  --bloom-sand: oklch(0.93 0.02 60);
+  --bloom-sky: oklch(0.88 0.035 240);
+}
+
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.168 0.004 68);
+  --foreground: oklch(0.955 0.002 68);
+  --card: oklch(0.209 0.004 68);
+  --primary: oklch(0.955 0.002 68);
+  --primary-foreground: oklch(0.168 0.004 68);
+  --secondary: oklch(0.259 0.004 68);
+  --muted: oklch(0.259 0.004 68);
+  --muted-foreground: oklch(0.668 0.004 68);
+  --faint: oklch(0.378 0.004 68);
+  --ring: oklch(0.72 0.003 68);
+  --ok: oklch(0.778 0.108 152);
+  --warn: oklch(0.818 0.107 80);
+  --warn-soft: oklch(0.298 0.04 72);
+  --danger: oklch(0.748 0.135 27);
+  --danger-soft: oklch(0.302 0.052 25);
+  --bloom-sage: oklch(0.298 0.035 150);
+  --bloom-sand: oklch(0.238 0.024 60);
+  --bloom-sky: oklch(0.288 0.042 240);
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-muted font-sans text-body text-foreground antialiased dark:bg-background;
+    /* An app, not a page: nothing rubber-bands, nothing selects by accident. */
+    overscroll-behavior: none;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: default;
+  }
+  input,
+  textarea,
+  [data-selectable] {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+  /* The header is the title bar: its empty space moves the window, a double
+     click zooms it — its controls stay controls. */
+  [data-titlebar] {
+    -webkit-app-region: drag;
+  }
+  [data-titlebar] :is(button, input, label, a) {
+    -webkit-app-region: no-drag;
+  }
+  ::selection {
+    @apply bg-accent text-accent-foreground;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring/40;
+  }
+  button {
+    cursor: default;
+  }
+}
+
+@utility grain {
+  /* Fine film grain over the washes. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Scroll areas show their bar only while scrolling, like the rest of macOS. */
+@utility scroll-quiet {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--faint) transparent;
+}
+
+/* Rows arrive with a short stagger the first time a list is drawn. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+.t-rise {
+  animation: rise 240ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+.t-fade {
+  animation: fade 180ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-rise,
+  .t-fade {
+    animation: none;
+  }
+}

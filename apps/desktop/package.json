@@ -1,0 +1,25 @@
+{
+  "name": "@skill-center/desktop",
+  "productName": "Skill Center",
+  "version": "1.0.0",
+  "description": "Every agent skill on this computer, across every harness.",
+  "author": "paukraft <beastmodepau@gmail.com>",
+  "private": true,
+  "main": "dist/main.cjs",
+  "scripts": {
+    "build:main": "bun build src/main.ts --target=node --format=cjs --external electron --outfile dist/main.cjs && bun build src/preload.ts --target=node --format=cjs --external electron --outfile dist/preload.cjs",
+    "build": "bun run build:main && electron-builder",
+    "start": "bun run build:main && electron .",
+    "install-app": "bun scripts/install.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@skill-center/core": "workspace:*",
+    "@skill-center/mcp": "workspace:*",
+    "@skill-center/web": "workspace:*",
+    "@types/bun": "^1.4.2",
+    "electron": "44.5.1",
+    "electron-builder": "26.15.3",
+    "typescript": "^7.0.2"
+  }
+}

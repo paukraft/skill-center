@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.turbo/
+apps/desktop/build/
+.DS_Store
+.env*
+*.local

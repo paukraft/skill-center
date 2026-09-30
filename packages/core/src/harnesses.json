@@ -1,0 +1,718 @@
+{
+  "cli": "1.7.0",
+  "homeVars": [
+    {
+      "name": "CODEX_HOME",
+      "dir": "~/.codex"
+    },
+    {
+      "name": "CLAUDE_CONFIG_DIR",
+      "dir": "~/.claude"
+    },
+    {
+      "name": "VIBE_HOME",
+      "dir": "~/.vibe"
+    },
+    {
+      "name": "HERMES_HOME",
+      "dir": "~/.hermes"
+    },
+    {
+      "name": "AUTOHAND_HOME",
+      "dir": "~/.autohand"
+    },
+    {
+      "name": "GROK_HOME",
+      "dir": "~/.grok"
+    },
+    {
+      "name": "SARVAM_HOME",
+      "dir": "~/.sarvam"
+    }
+  ],
+  "harnesses": [
+    {
+      "id": "aider-desk",
+      "name": "AiderDesk",
+      "dir": "~/.aider-desk/skills",
+      "shared": false,
+      "detect": [
+        "~/.aider-desk"
+      ]
+    },
+    {
+      "id": "amp",
+      "name": "Amp",
+      "dir": "$config/agents/skills",
+      "shared": true,
+      "detect": [
+        "$config/amp"
+      ]
+    },
+    {
+      "id": "antigravity",
+      "name": "Antigravity",
+      "dir": "~/.gemini/antigravity/skills",
+      "shared": true,
+      "detect": [
+        "~/.gemini/antigravity"
+      ]
+    },
+    {
+      "id": "antigravity-cli",
+      "name": "Antigravity CLI",
+      "dir": "~/.gemini/antigravity-cli/skills",
+      "shared": true,
+      "detect": [
+        "~/.gemini/antigravity-cli"
+      ]
+    },
+    {
+      "id": "astrbot",
+      "name": "AstrBot",
+      "dir": "~/.astrbot/data/skills",
+      "shared": false,
+      "detect": [
+        "~/.astrbot"
+      ]
+    },
+    {
+      "id": "autohand-code",
+      "name": "Autohand Code CLI",
+      "dir": "~/.autohand/skills",
+      "shared": false,
+      "detect": [
+        "~/.autohand"
+      ]
+    },
+    {
+      "id": "augment",
+      "name": "Augment",
+      "dir": "~/.augment/skills",
+      "shared": false,
+      "detect": [
+        "~/.augment"
+      ]
+    },
+    {
+      "id": "bob",
+      "name": "IBM Bob",
+      "dir": "~/.bob/skills",
+      "shared": false,
+      "detect": [
+        "~/.bob"
+      ]
+    },
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "dir": "~/.claude/skills",
+      "shared": false,
+      "detect": [
+        "~/.claude"
+      ]
+    },
+    {
+      "id": "openclaw",
+      "name": "OpenClaw",
+      "dir": "~/.openclaw/skills",
+      "shared": false,
+      "detect": [
+        "~/.openclaw",
+        "~/.clawdbot",
+        "~/.moltbot"
+      ]
+    },
+    {
+      "id": "cline",
+      "name": "Cline",
+      "dir": "~/.agents/skills",
+      "shared": true,
+      "detect": [
+        "~/.cline"
+      ]
+    },
+    {
+      "id": "codearts-agent",
+      "name": "CodeArts Agent",
+      "dir": "~/.codeartsdoer/skills",
+      "shared": false,
+      "detect": [
+        "~/.codeartsdoer"
+      ]
+    },
+    {
+      "id": "codebuddy",
+      "name": "CodeBuddy",
+      "dir": "~/.codebuddy/skills",
+      "shared": false,
+      "detect": [
+        "~/.codebuddy"
+      ]
+    },
+    {
+      "id": "codemaker",
+      "name": "Codemaker",
+      "dir": "~/.codemaker/skills",
+      "shared": false,
+      "detect": [
+        "~/.codemaker"
+      ]
+    },
+    {
+      "id": "codestudio",
+      "name": "Code Studio",
+      "dir": "~/.codestudio/skills",
+      "shared": false,
+      "detect": [
+        "~/.codestudio"
+      ]
+    },
+    {
+      "id": "codex",
+      "name": "Codex",
+      "dir": "~/.codex/skills",
+      "shared": true,
+      "detect": [
+        "~/.codex",
+        "/etc/codex"
+      ]
+    },
+    {
+      "id": "command-code",
+      "name": "Command Code",
+      "dir": "~/.commandcode/skills",
+      "shared": false,
+      "detect": [
+        "~/.commandcode"
+      ]
+    },
+    {
+      "id": "continue",
+      "name": "Continue",
+      "dir": "~/.continue/skills",
+      "shared": false,
+      "detect": [
+        "~/.continue"
+      ]
+    },
+    {
+      "id": "cortex",
+      "name": "Cortex Code",
+      "dir": "~/.snowflake/cortex/skills",
+      "shared": false,
+      "detect": [
+        "~/.snowflake/cortex"
+      ]
+    },
+    {
+      "id": "crush",
+      "name": "Crush",
+      "dir": "~/.config/crush/skills",
+      "shared": false,
+      "detect": [
+        "~/.config/crush"
+      ]
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "dir": "~/.cursor/skills",
+      "shared": true,
+      "detect": [
+        "~/.cursor"
+      ]
+    },
+    {
+      "id": "deepagents",
+      "name": "Deep Agents",
+      "dir": "~/.deepagents/agent/skills",
+      "shared": true,
+      "detect": [
+        "~/.deepagents"
+      ]
+    },
+    {
+      "id": "devin",
+      "name": "Devin for Terminal",
+      "dir": "$config/devin/skills",
+      "shared": false,
+      "detect": [
+        "$config/devin"
+      ]
+    },
+    {
+      "id": "dexto",
+      "name": "Dexto",
+      "dir": "~/.agents/skills",
+      "shared": true,
+      "detect": [
+        "~/.dexto"
+      ]
+    },
+    {
+      "id": "droid",
+      "name": "Droid",
+      "dir": "~/.factory/skills",
+      "shared": true,
+      "detect": [
+        "~/.factory"
+      ]
+    },
+    {
+      "id": "firebender",
+      "name": "Firebender",
+      "dir": "~/.firebender/skills",
+      "shared": true,
+      "detect": [
+        "~/.firebender"
+      ]
+    },
+    {
+      "id": "forgecode",
+      "name": "ForgeCode",
+      "dir": "~/.forge/skills",
+      "shared": false,
+      "detect": [
+        "~/.forge"
+      ]
+    },
+    {
+      "id": "fx",
+      "name": "fx",
+      "dir": "~/.fx/skills",
+      "shared": false,
+      "detect": [
+        "~/.fx"
+      ]
+    },
+    {
+      "id": "gemini-cli",
+      "name": "Gemini CLI",
+      "dir": "~/.gemini/skills",
+      "shared": true,
+      "detect": [
+        "~/.gemini"
+      ]
+    },
+    {
+      "id": "github-copilot",
+      "name": "GitHub Copilot",
+      "dir": "~/.copilot/skills",
+      "shared": true,
+      "detect": [
+        "~/.copilot"
+      ]
+    },
+    {
+      "id": "goose",
+      "name": "Goose",
+      "dir": "$config/goose/skills",
+      "shared": false,
+      "detect": [
+        "$config/goose"
+      ]
+    },
+    {
+      "id": "grok",
+      "name": "Grok Build",
+      "dir": "~/.grok/skills",
+      "shared": false,
+      "detect": [
+        "~/.grok"
+      ]
+    },
+    {
+      "id": "hermes-agent",
+      "name": "Hermes Agent",
+      "dir": "~/.hermes/skills",
+      "shared": false,
+      "detect": [
+        "~/.hermes"
+      ]
+    },
+    {
+      "id": "inference-sh",
+      "name": "inference.sh",
+      "dir": "~/.inferencesh/skills",
+      "shared": false,
+      "detect": [
+        "~/.inferencesh"
+      ]
+    },
+    {
+      "id": "jazz",
+      "name": "Jazz",
+      "dir": "~/.jazz/skills",
+      "shared": false,
+      "detect": [
+        "~/.jazz"
+      ]
+    },
+    {
+      "id": "junie",
+      "name": "Junie",
+      "dir": "~/.junie/skills",
+      "shared": false,
+      "detect": [
+        "~/.junie"
+      ]
+    },
+    {
+      "id": "iflow-cli",
+      "name": "iFlow CLI",
+      "dir": "~/.iflow/skills",
+      "shared": false,
+      "detect": [
+        "~/.iflow"
+      ]
+    },
+    {
+      "id": "kilo",
+      "name": "Kilo Code",
+      "dir": "~/.kilo/skills",
+      "shared": true,
+      "detect": [
+        "~/.kilo",
+        "~/.kilocode"
+      ]
+    },
+    {
+      "id": "kimchi",
+      "name": "Kimchi",
+      "dir": "~/.config/kimchi/harness/skills",
+      "shared": false,
+      "detect": [
+        "~/.config/kimchi"
+      ]
+    },
+    {
+      "id": "kimi-code-cli",
+      "name": "Kimi Code CLI",
+      "dir": "~/.agents/skills",
+      "shared": true,
+      "detect": [
+        "~/.kimi-code",
+        "~/.kimi"
+      ]
+    },
+    {
+      "id": "kiro-cli",
+      "name": "Kiro CLI",
+      "dir": "~/.kiro/skills",
+      "shared": false,
+      "detect": [
+        "~/.kiro"
+      ]
+    },
+    {
+      "id": "kode",
+      "name": "Kode",
+      "dir": "~/.kode/skills",
+      "shared": false,
+      "detect": [
+        "~/.kode"
+      ]
+    },
+    {
+      "id": "lingma",
+      "name": "Lingma",
+      "dir": "~/.lingma/skills",
+      "shared": false,
+      "detect": [
+        "~/.lingma"
+      ]
+    },
+    {
+      "id": "loaf",
+      "name": "Loaf",
+      "dir": "~/.agents/skills",
+      "shared": true,
+      "detect": [
+        "~/.loaf"
+      ]
+    },
+    {
+      "id": "mcpjam",
+      "name": "MCPJam",
+      "dir": "~/.mcpjam/skills",
+      "shared": false,
+      "detect": [
+        "~/.mcpjam"
+      ]
+    },
+    {
+      "id": "minimax-code",
+      "name": "MiniMax Code",
+      "dir": "~/.minimax/skills",
+      "shared": false,
+      "detect": [
+        "~/.minimax",
+        "/Applications/MiniMax Code.app"
+      ]
+    },
+    {
+      "id": "mistral-vibe",
+      "name": "Mistral Vibe",
+      "dir": "~/.vibe/skills",
+      "shared": false,
+      "detect": [
+        "~/.vibe"
+      ]
+    },
+    {
+      "id": "moxby",
+      "name": "Moxby",
+      "dir": "~/.moxby/skills",
+      "shared": false,
+      "detect": [
+        "~/.moxby"
+      ]
+    },
+    {
+      "id": "mux",
+      "name": "Mux",
+      "dir": "~/.mux/skills",
+      "shared": false,
+      "detect": [
+        "~/.mux"
+      ]
+    },
+    {
+      "id": "opencode",
+      "name": "OpenCode",
+      "dir": "$config/opencode/skills",
+      "shared": true,
+      "detect": [
+        "$config/opencode"
+      ]
+    },
+    {
+      "id": "openhands",
+      "name": "OpenHands",
+      "dir": "~/.openhands/skills",
+      "shared": false,
+      "detect": [
+        "~/.openhands"
+      ]
+    },
+    {
+      "id": "ona",
+      "name": "Ona",
+      "dir": "~/.ona/skills",
+      "shared": false,
+      "detect": [
+        "~/.ona"
+      ]
+    },
+    {
+      "id": "pi",
+      "name": "Pi",
+      "dir": "~/.pi/agent/skills",
+      "shared": false,
+      "detect": [
+        "~/.pi/agent"
+      ]
+    },
+    {
+      "id": "posit-assistant",
+      "name": "Posit Assistant",
+      "dir": "~/.posit/assistant/skills",
+      "shared": false,
+      "detect": [
+        "~/.posit/assistant",
+        "~/.positai"
+      ]
+    },
+    {
+      "id": "qoder",
+      "name": "Qoder",
+      "dir": "~/.qoder/skills",
+      "shared": false,
+      "detect": [
+        "~/.qoder"
+      ]
+    },
+    {
+      "id": "qoder-cn",
+      "name": "Qoder CN",
+      "dir": "~/.qoder-cn/skills",
+      "shared": false,
+      "detect": [
+        "~/.qoder-cn"
+      ]
+    },
+    {
+      "id": "qwen-code",
+      "name": "Qwen Code",
+      "dir": "~/.qwen/skills",
+      "shared": false,
+      "detect": [
+        "~/.qwen"
+      ]
+    },
+    {
+      "id": "reasonix",
+      "name": "Reasonix",
+      "dir": "~/.reasonix/skills",
+      "shared": false,
+      "detect": [
+        "~/.reasonix"
+      ]
+    },
+    {
+      "id": "rovodev",
+      "name": "Rovo Dev",
+      "dir": "~/.rovodev/skills",
+      "shared": false,
+      "detect": [
+        "~/.rovodev"
+      ]
+    },
+    {
+      "id": "roo",
+      "name": "Roo Code",
+      "dir": "~/.roo/skills",
+      "shared": false,
+      "detect": [
+        "~/.roo"
+      ]
+    },
+    {
+      "id": "sarvam-code",
+      "name": "Sarvam Code",
+      "dir": "~/.agents/skills",
+      "shared": true,
+      "detect": [
+        "~/.sarvam"
+      ]
+    },
+    {
+      "id": "tabnine-cli",
+      "name": "Tabnine CLI",
+      "dir": "~/.tabnine/agent/skills",
+      "shared": false,
+      "detect": [
+        "~/.tabnine"
+      ]
+    },
+    {
+      "id": "terramind",
+      "name": "Terramind",
+      "dir": "~/.terramind/skills",
+      "shared": false,
+      "detect": [
+        "~/.terramind"
+      ]
+    },
+    {
+      "id": "tinycloud",
+      "name": "Tinycloud",
+      "dir": "~/.tinycloud/skills",
+      "shared": false,
+      "detect": [
+        "~/.tinycloud"
+      ]
+    },
+    {
+      "id": "trae",
+      "name": "Trae",
+      "dir": "~/.trae/skills",
+      "shared": false,
+      "detect": [
+        "~/.trae"
+      ]
+    },
+    {
+      "id": "trae-cn",
+      "name": "Trae CN",
+      "dir": "~/.trae-cn/skills",
+      "shared": false,
+      "detect": [
+        "~/.trae-cn"
+      ]
+    },
+    {
+      "id": "warp",
+      "name": "Warp",
+      "dir": "~/.agents/skills",
+      "shared": true,
+      "detect": [
+        "~/.warp"
+      ]
+    },
+    {
+      "id": "windsurf",
+      "name": "Windsurf",
+      "dir": "~/.codeium/windsurf/skills",
+      "shared": false,
+      "detect": [
+        "~/.codeium/windsurf"
+      ]
+    },
+    {
+      "id": "zed",
+      "name": "Zed",
+      "dir": "~/.agents/skills",
+      "shared": true,
+      "detect": [
+        "$config/zed"
+      ]
+    },
+    {
+      "id": "zcode",
+      "name": "ZCode",
+      "dir": "~/.zcode/skills",
+      "shared": false,
+      "detect": [
+        "~/.zcode",
+        "/Applications/ZCode.app"
+      ]
+    },
+    {
+      "id": "zencoder",
+      "name": "Zencoder",
+      "dir": "~/.zencoder/skills",
+      "shared": false,
+      "detect": [
+        "~/.zencoder"
+      ]
+    },
+    {
+      "id": "zenflow",
+      "name": "Zenflow",
+      "dir": "~/.zencoder/skills",
+      "shared": false,
+      "detect": [
+        "~/.zencoder"
+      ]
+    },
+    {
+      "id": "neovate",
+      "name": "Neovate",
+      "dir": "~/.neovate/skills",
+      "shared": false,
+      "detect": [
+        "~/.neovate"
+      ]
+    },
+    {
+      "id": "pochi",
+      "name": "Pochi",
+      "dir": "~/.pochi/skills",
+      "shared": false,
+      "detect": [
+        "~/.pochi"
+      ]
+    },
+    {
+      "id": "adal",
+      "name": "AdaL",
+      "dir": "~/.adal/skills",
+      "shared": false,
+      "detect": [
+        "~/.adal"
+      ]
+    }
+  ]
+}
