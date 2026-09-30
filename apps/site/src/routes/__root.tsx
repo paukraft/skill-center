@@ -1,5 +1,7 @@
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
 
+import { Analytics } from "@/components/analytics"
+
 import appCss from "../styles.css?url"
 
 const description =
@@ -33,6 +35,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="antialiased">
         {children}
+        <Analytics />
         <Scripts />
       </body>
     </html>
