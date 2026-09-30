@@ -61,18 +61,25 @@ const INSTRUCTIONS = `# Release notes
 2. Group them: features, fixes, other.
 3. One line each, linking the PR.`
 const CREATED_MD = `---\nname: ${NAME}\ndescription: ${DESCRIPTION}\n---\n\n${INSTRUCTIONS}`
+const RELEASE_NOTES: Skill = { name: NAME, description: DESCRIPTION, agents: { claude: "on", codex: "on" } }
 const ADDED = "\n4. Thank first-time contributors."
 
-const CREATE = (() => {
-  const name = 1700
+/** The form typing itself out, in ms from when it opens. */
+const FORM = (() => {
+  const name = 600
   const description = typingEnds(NAME, name) + 300
   const instructions = typingEnds(DESCRIPTION, description, 60) + 300
-  const written = typingEnds(INSTRUCTIONS, instructions, 70)
+  return { name, description, instructions, written: typingEnds(INSTRUCTIONS, instructions, 70) }
+})()
+
+const CREATE = (() => {
+  const clickNew = 1100
+  const written = clickNew + FORM.written
   const clickCreate = written + 2000
   const clickEdit = clickCreate + 2200
   const addition = clickEdit + 1100
   const clickSave = typingEnds(ADDED, addition) + 800
-  return { clickNew: 1100, name, description, instructions, clickCodex: written + 900, clickCreate, clickEdit, addition, clickSave, saved: clickSave + 600 }
+  return { clickNew, name: clickNew + FORM.name, clickCodex: written + 900, clickCreate, clickEdit, addition, clickSave, saved: clickSave + 600 }
 })()
 const CREATE_LENGTH = CREATE.saved + 2200
 
@@ -122,7 +129,7 @@ function CreateSkillDemo() {
             {t < CREATE.clickCreate + 2000 && <Toast>{NAME} created</Toast>}
           </>
         ) : writing ? (
-          <CreateForm t={t} codex={codex} />
+          <CreateForm t={t - CREATE.clickNew} codex={codex} />
         ) : (
           <Detail skill={COMMIT_STYLE} origin="Yours" body={COMMIT_STYLE_MD} edit="reading" />
         )}
@@ -131,11 +138,12 @@ function CreateSkillDemo() {
   )
 }
 
+/** The New skill form, `t` ms after it opened. */
 function CreateForm({ t, codex }: { t: number; codex: boolean }) {
-  const name = typed(NAME, t, CREATE.name)
-  const description = typed(DESCRIPTION, t, CREATE.description, 60)
-  const instructions = typed(INSTRUCTIONS, t, CREATE.instructions, 70)
-  const active = t >= CREATE.instructions ? "instructions" : t >= CREATE.description ? "description" : "name"
+  const name = typed(NAME, t, FORM.name)
+  const description = typed(DESCRIPTION, t, FORM.description, 60)
+  const instructions = typed(INSTRUCTIONS, t, FORM.instructions, 70)
+  const active = t >= FORM.instructions ? "instructions" : t >= FORM.description ? "description" : "name"
   const problem = !name
     ? "Name it"
     : description.length < DESCRIPTION.length
@@ -313,27 +321,34 @@ function UpdateDemo() {
           busy: t >= UPDATE.updateAll,
         }}
       >
-        <Detail
-          skill={skill}
-          origin={`From skills.sh · updated ${skill.outdated ? "12 Aug" : "30 Sept"} 2026`}
-          actions={
-            skill.outdated && (
-              <>
-                <Action at="what-changed">{reviewing ? "Hide changes" : "What changed"}</Action>
-                <Action at="update" primary busy={t >= UPDATE.update}>
-                  {t < UPDATE.update && <RefreshCw />}
-                  Update
-                </Action>
-              </>
-            )
-          }
-          body={FRONTEND_DESIGN_MD}
-          diff={reviewing ? FRONTEND_DESIGN_DIFF : undefined}
-        />
+        <FrontendDesign skill={skill} reviewing={reviewing} updating={t >= UPDATE.update} />
         {t >= UPDATE.updated && t < UPDATE.updated + 1300 && <Toast>frontend-design is up to date</Toast>}
         {t >= UPDATE.allUpdated && t < UPDATE.allUpdated + 2000 && <Toast>2 skills updated</Toast>}
       </AppWindow>
     </Stage>
+  )
+}
+
+/** frontend-design, open: with an update waiting, what changed in it and the button to take it. */
+function FrontendDesign({ skill, reviewing, updating }: { skill: Skill; reviewing: boolean; updating: boolean }) {
+  return (
+    <Detail
+      skill={skill}
+      origin={`From skills.sh · updated ${skill.outdated ? "12 Aug" : "30 Sept"} 2026`}
+      actions={
+        skill.outdated && (
+          <>
+            <Action at="what-changed">{reviewing ? "Hide changes" : "What changed"}</Action>
+            <Action at="update" primary busy={updating}>
+              {!updating && <RefreshCw />}
+              Update
+            </Action>
+          </>
+        )
+      }
+      body={FRONTEND_DESIGN_MD}
+      diff={reviewing ? FRONTEND_DESIGN_DIFF : undefined}
+    />
   )
 }
 
@@ -367,60 +382,88 @@ function McpDemo() {
   )
 }
 
-// The tour: a bit of everything, for the top of the page.
+// The tour, for the top of the page: install a skill, update one, write one, delete one.
+
+// skills.sh as it was in September 2026: what it has on Remotion, and the
+// top of its search results as "remotion" is typed.
 
 const REMOTION: Skill = {
   name: "remotion-best-practices",
-  description: "Best practices for Remotion — making videos in React.",
+  description: "Router for all Remotion skills",
   agents: { claude: "on", codex: "on" },
 }
 
 const REMOTION_MD = `---
 name: remotion-best-practices
-description: Best practices for Remotion — making videos in React.
+description: Router for all Remotion skills
+version: 4.0.530
 ---
 
-# Remotion
+## Preserve user changes
 
-Use this whenever writing or changing Remotion compositions.`
+Users may make edits in the code outside of the conversation.
 
-const REMOTION_LISTING: Listing = { name: REMOTION.name, source: "remotion-dev/skills", installs: "96K" }
+## Creating a video
 
-const MOST_INSTALLED: Listing[] = [
-  { name: "find-skills", source: "vercel-labs/skills", installs: "418K" },
-  { name: "vercel-react-best-practices", source: "vercel-labs/agent-skills", installs: "212K", installed: true },
-  { name: "frontend-design", source: "anthropics/skills", installs: "164K", installed: true },
-  REMOTION_LISTING,
-  { name: "web-design-guidelines", source: "vercel-labs/agent-skills", installs: "88K" },
-]
+If the user asks to make, create, or build a new video or composition, load
+[Create a new Remotion video](./remotion-create/REFERENCE.md).`
 
-const REACT_RESULTS: Listing[] = [
-  { name: "vercel-react-best-practices", source: "vercel-labs/agent-skills", installs: "212K", installed: true },
-  REMOTION_LISTING,
-  { name: "vercel-react-native-skills", source: "vercel-labs/agent-skills", installs: "41K", installed: true },
-  { name: "vercel-composition-patterns", source: "vercel-labs/agent-skills", installs: "38K", installed: true },
-]
+const REMOTION_LISTING: Listing = { name: REMOTION.name, source: "remotion-dev/skills", installs: "556K" }
 
-// Every step is undone by the end — the skill it installs goes back to the
-// Trash — so the loop runs on without a cut.
-const TOUR = {
-  discover: 1300,
-  query: 2000,
-  open: 3600,
-  install: 4800,
-  installed: 5600,
-  codexOff: 7000,
-  settings: 8600,
-  harnesses: 9800,
-  hide: 11000,
-  filter: 12400,
-  unfilter: 14200,
-  reopen: 15400,
-  trash: 16800,
-  confirm: 17800,
-  deleted: 18400,
+const SEARCH = "remotion"
+
+const RESULTS: Record<string, Listing[]> = {
+  rem: [
+    REMOTION_LISTING,
+    { name: "remotion-to-hyperframes", source: "heygen-com/hyperframes", installs: "352K" },
+    { name: "remotion-render", source: "remotion-dev/skills", installs: "110K" },
+    { name: "remult", source: "remult.dev", installs: "21" },
+  ],
+  [SEARCH]: [
+    REMOTION_LISTING,
+    { name: "remotion-render", source: "remotion-dev/skills", installs: "110K" },
+    { name: "remotion-create", source: "remotion-dev/skills", installs: "109K" },
+    { name: "remotion-markup", source: "remotion-dev/skills", installs: "104K" },
+    { name: "remotion-upgrade", source: "remotion-dev/skills", installs: "90K" },
+  ],
 }
-const TOUR_LENGTH = 21500
+
+const PDF = FROM_SKILLS_SH.find((skill) => skill.name === "pdf")!
+
+const PDF_MD = `---
+name: pdf
+description: Use this skill whenever the user wants to work with PDFs.
+---
+
+# PDF
+
+Read, fill, merge and split PDFs with pypdf.`
+
+const TOUR = (() => {
+  const create = 13000
+  const written = create + FORM.written
+  const clickCreate = written + 900
+  const reopen = clickCreate + 2200
+  return {
+    discover: 1300,
+    query: 2000,
+    open: 4000,
+    install: 5200,
+    installed: 6000,
+    select: 7600,
+    review: 8800,
+    update: 11000,
+    updated: 11700,
+    create,
+    name: create + FORM.name,
+    clickCreate,
+    reopen,
+    trash: reopen + 1300,
+    confirm: reopen + 2300,
+    deleted: reopen + 2900,
+  }
+})()
+const TOUR_LENGTH = TOUR.deleted + 2500
 
 const TOUR_CURSOR: CursorScript = {
   start: [640, 520],
@@ -428,25 +471,26 @@ const TOUR_CURSOR: CursorScript = {
     { at: TOUR.discover - 100, to: "discover" },
     { at: TOUR.open - 100, to: `listing-${REMOTION.name}` },
     { at: TOUR.install - 100, to: "install" },
-    { at: TOUR.codexOff - 100, to: "switch-codex" },
-    { at: TOUR.settings - 100, to: "settings" },
-    { at: TOUR.harnesses - 100, to: "settings-harnesses" },
-    { at: TOUR.hide - 100, to: "harness-OpenCode" },
-    { at: TOUR.filter - 100, to: "filter" },
-    { at: TOUR.reopen - 100, to: `row-${REMOTION.name}` },
+    { at: TOUR.select - 100, to: "row-frontend-design" },
+    { at: TOUR.review - 100, to: "what-changed" },
+    { at: TOUR.update - 100, to: "update" },
+    { at: TOUR.create - 100, to: "create" },
+    { at: TOUR.name - 100, to: "field-name" },
+    { at: TOUR.clickCreate - 100, to: "create-button" },
+    { at: TOUR.reopen - 100, to: `row-${PDF.name}` },
     { at: TOUR.trash - 100, to: "trash" },
     { at: TOUR.confirm - 100, to: "move-to-trash" },
-    { at: TOUR_LENGTH - 300, to: [640, 520] },
+    { at: TOUR.deleted + 1500, to: [640, 520] },
   ],
   clicks: [
     TOUR.discover,
     TOUR.open,
     TOUR.install,
-    TOUR.codexOff,
-    TOUR.settings,
-    TOUR.harnesses,
-    TOUR.hide,
-    TOUR.filter,
+    TOUR.select,
+    TOUR.review,
+    TOUR.update,
+    TOUR.create,
+    TOUR.clickCreate,
     TOUR.reopen,
     TOUR.trash,
     TOUR.confirm,
@@ -454,66 +498,81 @@ const TOUR_CURSOR: CursorScript = {
 }
 
 function TourDemo() {
-  const [clock, t] = useClock(TOUR_LENGTH, TOUR.codexOff + 1000)
-  const remotion: Skill = t >= TOUR.codexOff ? { ...REMOTION, agents: { ...REMOTION.agents, codex: "off" } } : REMOTION
-  const installed = t >= TOUR.installed && t < TOUR.deleted
-  // Typed into the filter, then erased again.
-  const filter = typed("vercel", t, TOUR.filter + 300, 10)
-  const erased = typed(filter, t, TOUR.unfilter, 12).length
-  const view = tourView(t, remotion)
+  const [clock, t] = useClock(TOUR_LENGTH, TOUR.clickCreate + 1000)
+  const created = t >= TOUR.clickCreate
+  const fromSkillsSh = FROM_SKILLS_SH.filter((skill) => skill !== PDF || t < TOUR.deleted).map((skill) => ({
+    ...skill,
+    outdated: skill.name === "frontend-design" && t < TOUR.updated,
+  }))
+  const view = tourView(t)
 
   return (
-    <Stage clock={clock} t={t} length={TOUR_LENGTH} cursor={TOUR_CURSOR} width={1000} seamless>
+    <Stage clock={clock} t={t} length={TOUR_LENGTH} cursor={TOUR_CURSOR} width={1000}>
       <AppWindow
         tab={view.tab ?? null}
-        yours={[COMMIT_STYLE]}
+        yours={created ? [COMMIT_STYLE, RELEASE_NOTES] : [COMMIT_STYLE]}
         fromSkillsSh={
-          installed ? [...FROM_SKILLS_SH, remotion].sort((a, b) => a.name.localeCompare(b.name)) : FROM_SKILLS_SH
+          t >= TOUR.installed ? [...fromSkillsSh, REMOTION].sort((a, b) => a.name.localeCompare(b.name)) : fromSkillsSh
         }
         selected={view.selected ?? null}
-        filter={filter.slice(0, filter.length - erased)}
+        updates={{ count: t < TOUR.updated ? 1 : 0, busy: false }}
       >
         {view.pane}
-        {t >= TOUR.installed && t < TOUR.installed + 1800 && <Toast>{REMOTION.name} installed</Toast>}
-        {t >= TOUR.deleted && t < TOUR.deleted + 1800 && <Toast>{REMOTION.name} moved to the Trash</Toast>}
+        {t >= TOUR.installed && t < TOUR.installed + 1500 && <Toast>{REMOTION.name} installed</Toast>}
+        {t >= TOUR.updated && t < TOUR.updated + 1300 && <Toast>frontend-design is up to date</Toast>}
+        {created && t < TOUR.clickCreate + 2000 && <Toast>{NAME} created</Toast>}
+        {t >= TOUR.deleted && t < TOUR.deleted + 1800 && <Toast>{PDF.name} moved to the Trash</Toast>}
       </AppWindow>
     </Stage>
   )
 }
 
+const commitStyle = <Detail key={COMMIT_STYLE.name} skill={COMMIT_STYLE} origin="Yours" body={COMMIT_STYLE_MD} edit="reading" />
+
 /** What the tour has open at `t`: the header tab, the row, the pane. */
-function tourView(
-  t: number,
-  remotion: Skill,
-): { tab?: "discover" | "settings"; selected?: string; pane: React.ReactNode } {
-  const detail = (deleting?: "confirm" | "busy") => ({
-    selected: REMOTION.name,
-    pane: (
-      <Detail
-        key={REMOTION.name}
-        skill={remotion}
-        origin="From skills.sh · remotion-dev/skills"
-        deleting={deleting}
-        body={REMOTION_MD}
-      />
-    ),
-  })
-  if (t >= TOUR.deleted || t < TOUR.discover) {
-    return {
-      selected: COMMIT_STYLE.name,
-      pane: <Detail key={COMMIT_STYLE.name} skill={COMMIT_STYLE} origin="Yours" body={COMMIT_STYLE_MD} edit="reading" />,
-    }
-  }
+function tourView(t: number): { tab?: "discover" | "create"; selected?: string; pane: React.ReactNode } {
+  if (t >= TOUR.deleted) return { selected: COMMIT_STYLE.name, pane: commitStyle }
   if (t >= TOUR.reopen) {
-    return detail(t >= TOUR.confirm ? "busy" : t >= TOUR.trash ? "confirm" : undefined)
-  }
-  if (t >= TOUR.settings) {
     return {
-      tab: "settings",
-      pane: <Settings tab={t >= TOUR.harnesses ? "harnesses" : "general"} hidden={t >= TOUR.hide ? ["OpenCode"] : []} />,
+      selected: PDF.name,
+      pane: (
+        <Detail
+          key={PDF.name}
+          skill={PDF}
+          origin="From skills.sh · anthropics/skills"
+          deleting={t >= TOUR.confirm ? "busy" : t >= TOUR.trash ? "confirm" : undefined}
+          body={PDF_MD}
+        />
+      ),
     }
   }
-  if (t >= TOUR.installed) return detail()
+  if (t >= TOUR.clickCreate) {
+    return {
+      selected: NAME,
+      pane: <Detail key={NAME} skill={RELEASE_NOTES} origin="Yours" body={CREATED_MD} edit="reading" />,
+    }
+  }
+  if (t >= TOUR.create) return { tab: "create", pane: <CreateForm t={t - TOUR.create} codex /> }
+  if (t >= TOUR.select) {
+    const skill = { ...FROM_SKILLS_SH.find((skill) => skill.name === "frontend-design")!, outdated: t < TOUR.updated }
+    return {
+      selected: skill.name,
+      pane: (
+        <FrontendDesign
+          key={skill.name}
+          skill={skill}
+          reviewing={t >= TOUR.review && skill.outdated}
+          updating={t >= TOUR.update}
+        />
+      ),
+    }
+  }
+  if (t >= TOUR.installed) {
+    return {
+      selected: REMOTION.name,
+      pane: <Detail key={REMOTION.name} skill={REMOTION} origin="From skills.sh · remotion-dev/skills" body={REMOTION_MD} />,
+    }
+  }
   if (t >= TOUR.open) {
     return {
       tab: "discover",
@@ -522,8 +581,13 @@ function tourView(
       ),
     }
   }
-  const query = typed("react", t, TOUR.query, 10)
-  return { tab: "discover", pane: <Discover query={query} results={query.length >= 2 ? REACT_RESULTS : MOST_INSTALLED} /> }
+  if (t >= TOUR.discover) {
+    const query = typed(SEARCH, t, TOUR.query, 8)
+    // Searched from three letters on, and again once the word is complete.
+    const searched = query === SEARCH ? SEARCH : query.slice(0, 3)
+    return { tab: "discover", pane: <Discover query={query} results={RESULTS[searched]} /> }
+  }
+  return { selected: COMMIT_STYLE.name, pane: commitStyle }
 }
 
 export { CreateSkillDemo, McpDemo, SwitchHarnessesDemo, TourDemo, UpdateDemo }

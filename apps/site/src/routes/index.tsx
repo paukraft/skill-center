@@ -67,10 +67,10 @@ function Home() {
             className="pointer-events-none absolute -top-40 left-1/2 -z-10 h-[36rem] w-[64rem] max-w-[100vw] -translate-x-1/2 bg-[radial-gradient(closest-side,rgb(255_255_255/0.06),transparent)]"
           />
           <img
-            src="/favicon.svg"
+            src="/app-icon.png"
             alt=""
             style={stagger(0)}
-            className="mb-7 size-20 animate-rise drop-shadow-[0_12px_32px_rgb(255_255_255/0.1)]"
+            className="mb-5 size-24 animate-rise drop-shadow-[0_12px_32px_rgb(255_255_255/0.1)]"
           />
           <div style={stagger(1)} className="mb-7 flex animate-rise flex-wrap justify-center gap-2">
             <CreditPill href={PAUKRAFT_URL} logo={paukraftLogo} label="Made by" name="Pau Kraft" />
@@ -198,9 +198,9 @@ function CreditPill({ href, logo, label, name }: { href: string; logo: Logo; lab
     <a
       href={href}
       {...hoverProps}
-      className="group/pill inline-flex items-center gap-2 rounded-full bg-card/60 py-0.5 pr-3 pl-0.5 text-sm text-muted-foreground ring-1 ring-border backdrop-blur transition-[color,scale,background-color] active:scale-[0.98] hover:bg-card hover:text-foreground"
+      className="group/pill inline-flex items-center gap-2 rounded-full bg-card/60 py-1 pr-2.5 pl-1 text-sm text-muted-foreground ring-1 ring-border backdrop-blur transition-[color,scale,background-color] active:scale-[0.98] hover:bg-card hover:text-foreground"
     >
-      <span className="flex size-6 items-center justify-center rounded-full bg-foreground">
+      <span className="flex size-5.5 shrink-0 items-center justify-center rounded-full bg-foreground">
         <Logo3D logo={logo} active={active} inverted className="size-3" />
       </span>
       {label} <span className="font-medium text-foreground">{name}</span>

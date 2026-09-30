@@ -62,7 +62,6 @@ function Stage({
   length,
   cursor,
   width = 800,
-  seamless,
   children,
 }: {
   clock: React.RefObject<HTMLDivElement | null>
@@ -71,12 +70,10 @@ function Stage({
   cursor: CursorScript
   /** The canvas's own width in px; wider draws the app smaller. */
   width?: number
-  /** The loop ends where it starts, so it runs on without a cut. */
-  seamless?: boolean
   children: React.ReactNode
 }) {
-  // Otherwise each loop fades in from, and out to, the empty frame.
-  const opacity = seamless ? 1 : Math.min(clamp(t / 300), clamp((length - t) / 400))
+  // Each loop fades in from, and out to, the empty frame.
+  const opacity = Math.min(clamp(t / 300), clamp((length - t) / 400))
   return (
     <div ref={clock} aria-hidden className="relative aspect-[8/5] overflow-hidden bg-background [container-type:inline-size]">
       <div
@@ -575,8 +572,18 @@ function AgentChips({ chosen }: { chosen: Record<AgentId, boolean> }) {
 
 type Listing = { name: string; source: string; installs: string; installed?: boolean }
 
-/** skills.sh, searched: the most installed until something is typed. */
-function Discover({ query, results }: { query: string; results: Listing[] }) {
+/** skills.sh's most installed, as of September 2026. */
+const MOST_INSTALLED: Listing[] = [
+  { name: "find-skills", source: "vercel-labs/skills", installs: "3.6M" },
+  { name: "grill-me", source: "mattpocock/skills", installs: "1.3M" },
+  { name: "grill-with-docs", source: "mattpocock/skills", installs: "1.1M" },
+  { name: "improve-codebase-architecture", source: "mattpocock/skills", installs: "1.0M" },
+  { name: "tdd", source: "mattpocock/skills", installs: "992K" },
+]
+
+/** skills.sh: its most installed, until a search has `results`. */
+function Discover({ query, results }: { query: string; results?: Listing[] }) {
+  const listings = results ?? MOST_INSTALLED
   return (
     <div className="flex h-full animate-in flex-col p-5 duration-300 fade-in">
       <h1 className="text-[20px] font-medium tracking-[-0.01em]">Discover</h1>
@@ -592,9 +599,13 @@ function Discover({ query, results }: { query: string; results: Listing[] }) {
           <span className="text-muted-foreground">Search skills.sh</span>
         )}
       </span>
-      <p className="mt-4 mb-2 px-1 text-xs text-muted-foreground">{query.length >= 2 ? "Results" : "Most installed"}</p>
-      <ul key={query.length >= 2 ? "results" : "top"} className="flex min-h-0 flex-col gap-px overflow-hidden rounded-lg bg-card p-1">
-        {results.map((listing, index) => (
+      <p className="mt-4 mb-2 px-1 text-xs text-muted-foreground">{results ? "Results" : "Most installed"}</p>
+      {/* Keyed on what it lists, so each new set of results comes in afresh. */}
+      <ul
+        key={listings.map((listing) => listing.name).join()}
+        className="flex min-h-0 flex-col gap-px overflow-hidden rounded-lg bg-card p-1"
+      >
+        {listings.map((listing, index) => (
           <li
             key={listing.name}
             data-at={`listing-${listing.name}`}
